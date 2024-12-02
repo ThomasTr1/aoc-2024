@@ -16,13 +16,10 @@ public class Report {
             int curr = report.get(i);
 
             int difference = prev - curr;
-            if(outOfBound(difference)){
+            if(outOfBound(difference) || orderChanged(reportIsAscending, prev, curr)){
                 return false;
             }
 
-            if(orderChanged(reportIsAscending, prev, curr)){
-                return false;
-            }
         }
         return true;
     }
