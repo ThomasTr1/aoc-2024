@@ -36,17 +36,28 @@ public class Day2 {
     public static void main(String[] args) {
         Day2 inputData = new Day2("src/main/resources/input");
 
-        int solution1 = inputData.part_one();
-        System.out.printf("Solution for Part 1: %d", solution1);
+        Solution solution = inputData.solve();
+        System.out.printf("Solution for Part 1: %d%n", solution.part_1());
+        System.out.printf("Solution for Part 2: %d%n", solution.part_2());
     }
 
-    public int part_one() {
-        int nbValidReports = 0;
-        for(Report report : this.listOfReports){
-            if(report.isValid()){
-                nbValidReports++;
+
+    record Solution(int part_1, int part_2) {}
+
+    public Solution solve() {
+        int nbValidReportsPartOne = 0;
+        int nbValidReportsPartTwo = 0;
+
+        for (Report report : this.listOfReports) {
+            if (report.isValid()) {
+                nbValidReportsPartOne++;
+            }
+            if (report.isValid2()) {
+                nbValidReportsPartTwo++;
             }
         }
-        return nbValidReports;
+
+        return new Solution(nbValidReportsPartOne, nbValidReportsPartTwo);
     }
+
 }
