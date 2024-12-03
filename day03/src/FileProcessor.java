@@ -24,12 +24,9 @@ public class FileProcessor {
      *
      * @return the sum of all identified multiplication predicates.
      */
-    public int getSumOfMultiplicationPredicate() {
-        int sum = 0;
-        for(String line: this.lines){
-            sum += sumOfMultiplicationFromLine(line);
-        }
-
+    public int getSumOfMultiplicationPredicate_Part1() {
+        String input = String.join(":", this.lines);
+        int sum = sumOfMultiplicationFromLine(input);
         return sum;
     }
 
@@ -45,13 +42,44 @@ public class FileProcessor {
         return sumOfLine;
     }
 
-    private record MultiplicationNumbers(int a, int b){}
-
     private MultiplicationNumbers getIntegerFromRegexMatch(Matcher m) {
         int a = Integer.parseInt(m.group(1));
         int b = Integer.parseInt(m.group(2));
         return new MultiplicationNumbers(a,b);
+    }
+
+    private record MultiplicationNumbers(int a, int b){}
+
+    private String parseInputPart2(){
+        String file = String.join(":", this.lines) + "do()";
+
+        String multRegex = "mul\\((\\d{1,3}),\\d{1,3}\\)";
+        String doRegex = "do\\(\\)";
+        String dontRegex = "don't\\(\\)";
+
+        String regEx = multRegex + "|" + doRegex + "|" + dontRegex;
+
+        Pattern multiplyPredicate = Pattern.compile(regEx);
+        Matcher m = multiplyPredicate.matcher(file);
+        StringBuilder filteredFile = new StringBuilder();
+        while (m.find()) {
+            filteredFile.append(m.group()).append("");
+        }
+
+        if (filteredFile.length() > 0) {
+            filteredFile.setLength(filteredFile.length() - 1);
+        }
+        return String.valueOf(filteredFile);
+    }
+
+
+    public int getSumOfMultiplicationPredicate_Part2(){
+        String parsedInput = parseInputPart2();
+        String result = parsedInput.replaceAll("(?s)don't\\(\\).*?do\\(\\)", "");
+        result = result.replaceAll("do\\(\\)", "");
+        return sumOfMultiplicationFromLine(result);
 
     }
+
 
 }
