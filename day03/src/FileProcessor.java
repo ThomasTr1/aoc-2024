@@ -34,7 +34,7 @@ public class FileProcessor {
     }
 
     private int sumOfMultiplicationFromLine(String line){
-        String regex = "mul\\((\\d+),(\\d+)\\)";
+        String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
         Pattern multiplyPredicate = Pattern.compile(regex);
         Matcher m = multiplyPredicate.matcher(line);
         int sumOfLine = 0;
